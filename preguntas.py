@@ -12,9 +12,9 @@ Utilice el archivo `data.csv` para resolver las preguntas.
 
 """
 
+import pandas as pd
 
 from re import X
-
 
 def pregunta_01():
     """
@@ -24,9 +24,9 @@ def pregunta_01():
     214
 
     """
+    df=pd.read_csv("data.csv")
     x = 214
     return x
-
 
 def pregunta_02():
     """
