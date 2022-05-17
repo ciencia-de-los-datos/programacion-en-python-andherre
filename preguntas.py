@@ -12,7 +12,6 @@ Utilice el archivo `data.csv` para resolver las preguntas.
 
 """
 
-
 def pregunta_01():
     """
     Retorne la suma de la segunda columna.
@@ -21,13 +20,23 @@ def pregunta_01():
     214
 
     """
-    return
+    with open("data.csv") as f:
+        df = f.readlines()
+        df = [row.replace("\n", "") for row in df]
+        df = [row.split('\t') for row in df]
 
+    x=0
+    for i in range(len(df)):
+        x = x + int(df[i][1])
+
+    return x
+
+print(pregunta_01())
 
 def pregunta_02():
     """
     Retorne la cantidad de registros por cada letra de la primera columna como la lista
-    de tuplas (letra, cantidad), ordendas alfabéticamente.
+    de tuplas (letra, cantidad), ordenadas alfabéticamente.
 
     Rta/
     [
@@ -39,13 +48,30 @@ def pregunta_02():
     ]
 
     """
-    return
+    with open("data.csv") as f:
+        df = f.readlines()
+        df = [row.replace("\n", "") for row in df]
+        df = [row.split('\t') for row in df]
 
+    key=[]   
+    value=[]
+    
+    for i in range(len(df)):
+        if df[i][0] in key:
+            value[key.index(df[i][0])]=value[key.index(df[i][0])]+1
+        else:
+            key.append(df[i][0])
+            value.append(1)
+
+    result =dict(zip(key, value))
+    return sorted(result.items())
+
+print(pregunta_02())
 
 def pregunta_03():
     """
     Retorne la suma de la columna 2 por cada letra de la primera columna como una lista
-    de tuplas (letra, suma) ordendas alfabeticamente.
+    de tuplas (letra, suma) ordenadas alfabeticamente.
 
     Rta/
     [
@@ -57,7 +83,25 @@ def pregunta_03():
     ]
 
     """
-    return
+    with open("data.csv") as f:
+        df = f.readlines()
+        df = [row.replace("\n", "") for row in df]
+        df = [row.split('\t') for row in df]
+
+    key=[]   
+    value=[]
+    
+    for i in range(len(df)):
+        if df[i][0] in key:
+            value[key.index(df[i][0])]=value[key.index(df[i][0])]+int(df[i][1])
+        else:
+            key.append(df[i][0])
+            value.append(int(df[i][1]))
+
+    result =dict(zip(key, value))
+    return sorted(result.items())
+
+print(pregunta_03())
 
 
 def pregunta_04():
@@ -82,9 +126,29 @@ def pregunta_04():
     ]
 
     """
-    return
+
+    with open("data.csv") as f:
+        df = f.readlines()
+        df = [row.replace("\n", "") for row in df]
+        df = [row.split('\t') for row in df]
+
+    key=[]   
+    value=[]
+    
+    for i in range(len(df)):
+        if df[i][2][5:7] in key:
+            value[key.index(df[i][2][5:7])]=value[key.index(df[i][2][5:7])]+1
+        else:
+            key.append(df[i][2][5:7])
+            value.append(1)
+
+    result =dict(zip(key, value))
+    return sorted(result.items())
+    
+print(pregunta_04())
 
 
+"""--------------------------------"""
 def pregunta_05():
     """
     Retorne una lista de tuplas con el valor maximo y minimo de la columna 2 por cada
@@ -100,8 +164,24 @@ def pregunta_05():
     ]
 
     """
-    return
+    with open("data.csv") as f:
+        df = f.readlines()
+        df = [row.replace("\n", "") for row in df]
+        df = [row.split('\t') for row in df]
 
+    counter = {}
+    for row in df:
+        value = int(row[1])
+        if row[0] in counter.keys():
+            if value > counter[row[0]][0]:
+                counter[row[0]][0] = value
+            if value < counter[row[0]][1]:
+                counter[row[0]][1] = value
+            else:
+                counter[row[0]] = [value, value]
+    return [(r[0], r[1][0], r[1][1]) for r in sorted(counter.items())]
+
+print(pregunta_05())
 
 def pregunta_06():
     """
@@ -125,8 +205,27 @@ def pregunta_06():
     ]
 
     """
-    return
-
+    with open("data.csv") as f:
+        df = f.readlines()
+        df = [row.replace("\n", "") for row in df]
+        df = [row.split('\t') for row in df]
+    
+    counter = {}
+    for row in df:
+        pairs = row[4].split(',')
+        for pair in pairs:
+            value = pair.split(':')
+            value[1] = int(value[1])
+            if value[0] in counter.keys():
+                if value[1] > counter[value[0]][0]:
+                    counter[value[0]][0] = value[1]
+                if value[1] < counter[value[0]][1]:
+                    counter[value[0]][1] = value[1]
+            else:
+                counter[value[0]] = [value[1], value[1]]
+    return [(r[0], r[1][1], r[1][0]) for r in sorted(counter.items())]
+    
+print(pregunta_06())
 
 def pregunta_07():
     """
@@ -149,8 +248,21 @@ def pregunta_07():
     ]
 
     """
-    return
-
+    with open("data.csv") as f:
+        df = f.readlines()
+        df = [row.replace("\n", "") for row in df]
+        df = [row.split('\t') for row in df]
+    
+    counter = {}
+    for row in df:
+            value = int(row[1])
+    if value in counter.keys():
+            counter[value].append(row[0])
+    else:
+            counter[value] = [row[0]]
+    return sorted(counter.items())
+    
+print(pregunta_07())
 
 def pregunta_08():
     """
@@ -174,8 +286,22 @@ def pregunta_08():
     ]
 
     """
-    return
+    with open("data.csv") as f:
+            df = f.readlines()
+            df = [row.replace("\n", "") for row in df]
+            df = [row.split('\t') for row in df]
 
+            counter = {}
+            for row in df:
+                value = int(row[1])
+                if value in counter.keys():
+                    counter[value].append(row[0])
+                else:
+                    counter[value] = [row[0]]
+    return [(r[0], sorted(list(set(r[1])))) for r in sorted(counter.items())]
+    
+
+print(pregunta_08())
 
 def pregunta_09():
     """
@@ -197,8 +323,24 @@ def pregunta_09():
     }
 
     """
-    return
+    with open("data.csv") as f:
+        df = f.readlines()
+        df = [row.replace("\n", "") for row in df]
+        df = [row.split('\t') for row in df]
 
+    counter = {}
+    for row in df:
+        pairs = row[4].split(',')
+        for pair in pairs:
+            value = pair.split(':')
+            value[1] = int(value[1])
+            if value[0] in counter.keys():
+                counter[value[0]] += 1
+            else:
+                counter[value[0]] = 1
+    return counter
+    
+print(pregunta_09())
 
 def pregunta_10():
     """
@@ -218,8 +360,21 @@ def pregunta_10():
 
 
     """
-    return
+    with open("data.csv") as f:
+        df = f.readlines()
+        df = [row.replace("\n", "") for row in df]
+        df = [row.split('\t') for row in df]
+    
+    counter = []
+    for row in df:
+        counter.append((
+            row[0],
+            len(row[3].split(',')),
+            len(row[4].split(','))
+        ))
+    return counter
 
+print(pregunta_10())
 
 def pregunta_11():
     """
@@ -239,8 +394,23 @@ def pregunta_11():
 
 
     """
-    return
+    with open("data.csv") as f:
+        df = f.readlines()
+        df = [row.replace("\n", "") for row in df]
+        df = [row.split('\t') for row in df]
 
+    counter = {}
+    for row in df:
+        value = int(row[1])
+        pairs = row[3].split(',')
+        for pair in pairs:
+            if pair in counter.keys():
+                counter[pair] += value
+            else:
+                counter[pair] = value
+    return counter
+    
+print(pregunta_11())
 
 def pregunta_12():
     """
@@ -257,4 +427,18 @@ def pregunta_12():
     }
 
     """
-    return
+    with open("data.csv") as f:
+        df = f.readlines()
+        df = [row.replace("\n", "") for row in df]
+        df = [row.split('\t') for row in df]
+    counter = {}
+    for row in df:
+        if row[0] not in counter.keys():
+            counter[row[0]] = 0
+        pairs = row[4].replace(':', ',').split(',')
+        for pair in pairs:
+            if pair.isdigit():
+                counter[row[0]] += int(pair)
+    return counter
+
+print(pregunta_12())
