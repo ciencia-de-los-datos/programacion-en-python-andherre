@@ -11,10 +11,6 @@ Utilice el archivo `data.csv` para resolver las preguntas.
 
 
 """
-from re import X
-import csv
-import string
-
 
 def pregunta_01():
     """
